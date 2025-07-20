@@ -1,24 +1,25 @@
 from sqlalchemy import create_engine, Column, Integer, String
-from sqlalchemy.orm import sessionmaker, declarative_base 
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import sessionmaker
 import dotenv 
 import os 
 
-Base = declarative_base()
+db = SQLAlchemy()
 
-class User(Base):
+class User(db.Model):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(String(20), unique=True, nullable=False)
     password = Column(String(40), unique=False, nullable=False)
 
-dotenv.load_dotenv()
-USR = os.getenv('USERNAME')
-PWD = os.getenv('PASSWORD')
-DB_NAME = os.getenv('DATABASE')
+def init_db(app):
+    dotenv.load_dotenv()
+    USR = os.getenv('USERNAME')
+    PWD = os.getenv('PASSWORD')
+    DB_NAME = os.getenv('DATABASE')
 
-CON_URL = f'mysql+pymysql://{USR}:{PWD}@localhost/{DB_NAME}'
-engine = create_engine(CON_URL)
+    CON_URI = f'mysql+pymysql://{USR}:{PWD}@localhost/{DB_NAME}'
+    db.init_app(app)
 
-Base.metadata.create_all(engine)
-Session = sessionmaker(bind=engine)
-
+    with app.app_context():
+        db.create_all()
