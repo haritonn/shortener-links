@@ -19,21 +19,22 @@ def login_password(user, password):
     results = session.query(User).filter(User.name == user).all()
     
     if check_password_hash(results[0], password):
-        session.clsoe()
+        session.close()
         return True 
     
     session.close()
     return False 
 
 # registration of new user (True -> redirect to application page, False -> this user already exists)
-def registration_user(user, password):
+def registration_user(user, password, error=None):
     new_user = User(username=user, password=generate_password_hash(password))
     try:
         with Session() as session:
             session.add(new_user)
             session.commit()
-            return True
         
     except IntegrityError:
         session.rollback()
-        return False
+        error = f'User {user} already exists'
+    
+    return error

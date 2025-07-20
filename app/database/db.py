@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import sessionmaker
 import dotenv 
 import os 
 
