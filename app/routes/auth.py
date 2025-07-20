@@ -1,11 +1,11 @@
 from  flask import (
     Blueprint, render_template, request, flash, url_for, redirect
 )
-from database.auth import registration_user, login_username, login_password
+from app.database.auth import registration_user, login_username, login_password
 
-bp = Blueprint('auth', __name__, url_prefix='/auth')
+auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/register', methods=['GET', 'POST'])
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         username = request.form['username']
@@ -21,14 +21,14 @@ def register():
         # registration functions
         error = registration_user(username, password, error)        
         if error is not None:
-            return redirect(url_for('login'))
+            return redirect(url_for('auth.login'))
 
         flash(error)
 
     return render_template('auth/register.html')
 
 
-@bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         username = request.form['username']
@@ -48,7 +48,7 @@ def login():
             error = 'Incorrect password'
 
         if error is not None:
-            return redirect(url_for='/shortener')
+            return redirect(url_for('shortener'))
         
         flash(error)
     return render_template('auth/login.html')

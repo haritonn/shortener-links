@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # returns false if username is not found
 def login_username(user):
-    query = User.query.filter_by(User.username==user).first()
+    query = User.query.filter_by(username=user).first()
     if query is None:
         return True 
 
@@ -13,7 +13,7 @@ def login_username(user):
 
 # check if password correct (should be used after checking username)
 def login_password(user, password):
-    query = User.query.filter_by(User.username==user).first()
+    query = User.query.filter_by(username=user).first()
     if not query:
         return False 
     
@@ -24,7 +24,6 @@ def registration_user(user, password, error=None):
     new_user = User(username=user, password=generate_password_hash(password)) 
     
     try:
-
         db.session.add(new_user)
         db.session.commit()
 
