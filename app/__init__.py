@@ -1,6 +1,7 @@
 from app.database import db
 from flask import Flask
 from app.routes.auth import auth_bp
+from app.routes.shortener import app_bp
 
 def create_app():
     app = Flask(__name__, static_folder='static/')
@@ -9,9 +10,6 @@ def create_app():
 
     # Registering blueprints
     app.register_blueprint(auth_bp)
-
-    @app.route('/')
-    def hello_world():
-        return 'hello world'
+    app.register_blueprint(app_bp)
 
     return app 

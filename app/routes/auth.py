@@ -5,6 +5,8 @@ from app.database.auth import registration_user, login_username, login_password
 
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
+
+# registration handler
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -28,6 +30,7 @@ def register():
     return render_template('auth/register.html')
 
 
+# login handler
 @auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':

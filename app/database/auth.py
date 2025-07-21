@@ -19,7 +19,7 @@ def login_password(user, password):
     
     return check_password_hash(query.password, password)
 
-# registration of new user (True -> redirect to application page, False -> this user already exists)
+# registration of new user 
 def registration_user(user, password, error=None):
     new_user = User(username=user, password=generate_password_hash(password)) 
     

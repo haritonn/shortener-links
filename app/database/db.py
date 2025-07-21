@@ -1,16 +1,27 @@
-from sqlalchemy import Column, Integer, VARCHAR
+from sqlalchemy import Column, Integer, VARCHAR, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 import dotenv 
 import os 
 
 db = SQLAlchemy()
 
+# user name <-> user password table
 class User(db.Model):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     username = Column(VARCHAR(20), unique=True, nullable=False)
     password = Column(VARCHAR(200), unique=False, nullable=False)
 
+# long link <-> short link table
+class Links(db.Model):
+    __tablename__ = 'links'
+    id = Column(Integer, unique=True, autoincrement=True)
+    original_url = Column(VARCHAR(250), nullable=False)
+    shorter_url = Column(VARCHAR(50), nullable=False, unique=True)
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+
+
+# application initialization
 def init_db(app):
     dotenv.load_dotenv()
     USR = os.getenv('USERNAME')
