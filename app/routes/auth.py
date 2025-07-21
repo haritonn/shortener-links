@@ -15,8 +15,12 @@ def register():
         # simple checks
         if not username:
             error = "Username is required"
+            flash(error)
+            return redirect(url_for("auth.login"))
         elif not password:
             error = "Password is required"
+            flash(error)
+            return redirect(url_for("auth.login"))
 
         # registration functions
         error = registration_user(username, password, error)
@@ -46,12 +50,15 @@ def login():
         # login functions
         if not login_username(username):
             error = f"User {username} not found"
+            flash(error)
+            return redirect(url_for("auth.login"))
+
         if not login_password(username, password):
             error = "Incorrect password"
+            flash(error)
+            return redirect(url_for("auth.login"))
 
         if error is None:
             return redirect("/")
 
-        flash(error)
-        return redirect(url_for("auth.login"))
     return render_template("auth/login.html")

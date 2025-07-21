@@ -35,8 +35,13 @@ def init_db(app):
     DB_NAME = os.getenv("DATABASE")
 
     # Application configuration
-    CON_URI = f"mysql+pymysql://{USR}:{PWD}@localhost/{DB_NAME}"
+    CON_URI = f"mysql+pymysql://{USR}:{PWD}@localhost:3306/{DB_NAME}"
     app.config["SQLALCHEMY_DATABASE_URI"] = CON_URI
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_recycle": 28000,
+        "pool_pre_ping": True,
+    }
+
     db.init_app(app)
 
     with app.app_context():

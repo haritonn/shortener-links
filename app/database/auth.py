@@ -5,8 +5,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # returns false if username is not found
 def login_username(user):
-    users = [User.query.filter_by(username=user).first()]
-    if len(users) == 0:
+    userfound = User.query.filter_by(username=user).first()
+    if userfound is None:
         return False
 
     return True
@@ -14,11 +14,8 @@ def login_username(user):
 
 # check if password correct (should be used after checking username)
 def login_password(user, password):
-    users = [User.query.filter_by(username=user).first()]
-    if len(users) == 0:
-        return False
-
-    return check_password_hash(users[0].password, password)
+    found = User.query.filter_by(username=user).first()
+    return check_password_hash(found.password, password)
 
 
 # registration of new user
