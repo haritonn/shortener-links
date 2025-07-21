@@ -22,10 +22,11 @@ def register():
 
         # registration functions
         error = registration_user(username, password, error)        
-        if error is not None:
+        if error is None:
             return redirect(url_for('auth.login'))
 
         flash(error)
+        return redirect(url_for('auth.register'))
 
     return render_template('auth/register.html')
 
@@ -50,8 +51,9 @@ def login():
         if not login_password(username, password):
             error = 'Incorrect password'
 
-        if error is not None:
-            return redirect(url_for('shortener'))
+        if error is None:
+            return redirect('/')
         
         flash(error)
+        return redirect(url_for('auth.login'))
     return render_template('auth/login.html')

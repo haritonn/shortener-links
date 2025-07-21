@@ -12,13 +12,15 @@ class User(db.Model):
     username = Column(VARCHAR(20), unique=True, nullable=False)
     password = Column(VARCHAR(200), unique=False, nullable=False)
 
+    rl = db.relationship('Links', backref='user', lazy=True, cascade='all, delete')
+
 # long link <-> short link table
 class Links(db.Model):
     __tablename__ = 'links'
-    id = Column(Integer, unique=True, autoincrement=True)
+    id = Column(Integer, unique=True, autoincrement=True, primary_key=True)
     original_url = Column(VARCHAR(250), nullable=False)
     shorter_url = Column(VARCHAR(50), nullable=False, unique=True)
-    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'))
+    user_id = Column(Integer, ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
 
 
 # application initialization

@@ -4,20 +4,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # returns false if username is not found
 def login_username(user):
-    query = User.query.filter_by(username=user).first()
-    if query is None:
-        return True 
+    users = [User.query.filter_by(username=user).first()]
+    if len(users) == 0:
+        return False
 
-    return False
+    return True
 
 
 # check if password correct (should be used after checking username)
 def login_password(user, password):
-    query = User.query.filter_by(username=user).first()
-    if not query:
+    users = [User.query.filter_by(username=user).first()]
+    if len(users) == 0:
         return False 
     
-    return check_password_hash(query.password, password)
+    return check_password_hash(users[0].password, password)
 
 # registration of new user 
 def registration_user(user, password, error=None):
