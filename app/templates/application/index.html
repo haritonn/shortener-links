@@ -20,7 +20,7 @@
         {% endwith %}
 
         <label for="original_link">Enter long URL:</label>
-        <textarea id="original_link" name="original_url" rows="3" placeholder="https://your-long-url.com" required>{{ request.form.original_url or '' }}</textarea>
+        <textarea id="original_link" name="original_url" rows="3" placeholder="Enter your original URL" required>{{ request.form.original_url or '' }}</textarea>
 
         <input type="submit" value="Shorten">
 
@@ -28,6 +28,9 @@
         <label for="short_link">Shortened link:</label>
         <textarea id="short_link" readonly rows="2">{{ short_url }}</textarea>
         {% endif %}
+
+        <a href="{{ url_for('auth.logout') }}" class="exit-button">Exit from account</a>
     </form>
 </body>
 </html>
+
