@@ -33,4 +33,5 @@ def registration_user(user, password, error=None):
         error = f"User {user} already exists"
 
     db.session.close()
+    login_user(new_user)
     return error

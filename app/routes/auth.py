@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, flash, url_for, redirect
 from app.database.auth import registration_user, login_username, login_password
+from flask_login import login_required, logout_user
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
@@ -62,3 +63,11 @@ def login():
             return redirect("/")
 
     return render_template("auth/login.html")
+
+
+# logout handler
+@auth_bp.route("/logout", methods=["GET", "POST"])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("auth.login"))
