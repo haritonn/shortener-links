@@ -16,11 +16,11 @@ def register():
         if not username:
             error = "Username is required"
             flash(error)
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("auth.register"))
         elif not password:
             error = "Password is required"
             flash(error)
-            return redirect(url_for("auth.login"))
+            return redirect(url_for("auth.register"))
 
         # registration functions
         error = registration_user(username, password, error)

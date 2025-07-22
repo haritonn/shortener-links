@@ -11,6 +11,6 @@ def create_app():
 
     # Registering blueprints
     app.register_blueprint(auth_bp)
-    app.register_blueprint(app_bp)
+    #   app.register_blueprint(app_bp)
 
     return app
