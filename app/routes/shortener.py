@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, flash, url_for, redirect
+from flask_login import login_required
 from app.database.redirect import generate_and_save_pair
 from app.database.db import db, Links
 
@@ -7,6 +8,7 @@ app_bp = Blueprint("application", __name__)
 
 # Generating original_url - short_url pair, returning short_url
 @app_bp.route("/", methods=["GET", "POST"])
+@login_required
 def generate_link():
     if request.method == "POST":
         original_url = request.form["original_url"]
@@ -25,6 +27,7 @@ def generate_link():
 
 # Redirecting from short_url to original_url
 @app_bp.route("/<short_url>", methods=["GET"])
+@login_required
 def redirect_to_original(short_url):
     try:
         original_url = (

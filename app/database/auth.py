@@ -1,6 +1,7 @@
 from app.database.db import db, User
 from sqlalchemy.exc import IntegrityError
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import login_user
 
 
 # returns false if username is not found
@@ -9,6 +10,7 @@ def login_username(user):
     if userfound is None:
         return False
 
+    login_user(userfound)
     return True
 
 
