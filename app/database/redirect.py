@@ -1,27 +1,31 @@
 from app.database.db import db, Links
 from sqlalchemy.exc import IntegrityError
 from app.utils import short_generation
+import logging
 
 
-# saving original_url in database
-def save_original_url(link, error=None):
-    new_link = Links(original_url=link)
+# generate and save original_url - short_url pair
+def generate_and_save_pair(link, error=None):
+    short_url = None
+
     try:
+        short_url = short_generation.generate_short_url(link)
+        new_link = Links(
+            original_url=link, shorter_url=short_url, user_id=1
+        )  # user_id=1 is filler value, should be changed further
         db.session.add(new_link)
-        db.commit()
+        db.session.commit()
+
     except IntegrityError:
-        error = "Unable to add current link"
+        logging.warning("IntegrityError: this link already exists in database")
+        short_url = (
+            db.session.query(Links.shorter_url).filter_by(original_url=link).scalar()
+        )
 
-    db.session.close()
-    return error
+    except Exception as e:
+        error = f"Some error occured: {e}"
+        logging.exception("Error in generate_and_save_pair")
 
-
-# adding short_url pair for original_url (call after function above)
-def generate_and_save_short(link, error=None):
-    founded_link = Links.query.filter_by(original_url=link).first()
-    short_url = short_generation.generate_short_url(founded_link)
-
-    founded_link.original_url = short_url
-    db.session.commit()
-
-    return short_url
+    finally:
+        db.session.close()
+        return short_url, error
