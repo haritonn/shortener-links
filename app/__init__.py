@@ -3,12 +3,15 @@ from flask import Flask
 from flask_login import LoginManager
 from app.routes.auth import auth_bp
 from app.routes.shortener import app_bp
+import dotenv
+import os
 
 
 def create_app():
+    dotenv.load_dotenv()
     app = Flask(__name__, static_folder="static/")
     db.init_db(app)
-    app.config["SECRET_KEY"] = "dev"
+    app.config["SECRET_KEY"] = os.getenv("DEV_KEY")
 
     # Registering blueprints
     app.register_blueprint(auth_bp)
