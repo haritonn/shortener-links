@@ -11,3 +11,5 @@ wheels/
 .python-version
 pyproject.toml
 .env
+uv.lock
+.pre-commit-config.yaml
