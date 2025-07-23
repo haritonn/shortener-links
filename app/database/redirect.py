@@ -25,6 +25,10 @@ def generate_and_save_pair(link, error=None):
             db.session.query(Links.shorter_url).filter_by(original_url=link).first()[0]
         )
         logging.info("Not found in cache, found in mysql")
+
+        # again adding in redis cache
+        redis_client.set(link, short_url, ex=600)
+
         return short_url, error
 
     # 3. adding in cache & database
