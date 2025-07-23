@@ -9,7 +9,7 @@ import os
 db = SQLAlchemy()
 
 # Redis (cache for Links data)
-redis_client = redis.Redis(host="localhost", port=6379, decode_responses=True)
+redis_client = redis.Redis(host="redis_cache", port=6379, decode_responses=True)
 
 
 # user name <-> user password table
@@ -47,7 +47,7 @@ def init_db(app):
     DB_NAME = os.getenv("DATABASE")
 
     # Application configuration
-    CON_URI = f"mysql+pymysql://{USR}:{PWD}@localhost:3306/{DB_NAME}"
+    CON_URI = f"mysql+pymysql://{USR}:{PWD}@mysql_db:3306/{DB_NAME}"
     app.config["SQLALCHEMY_DATABASE_URI"] = CON_URI
     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
         "pool_recycle": 28000,
