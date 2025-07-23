@@ -21,6 +21,11 @@ def create_app():
 
     @login_manager.user_loader
     def get_user(user_id):
-        return db.User.query.get(int(user_id))
+        if not user_id or user_id == "None":
+            return None
+        try:
+            return db.User.query.get(int(user_id))
+        except ValueError:
+            return None
 
     return app

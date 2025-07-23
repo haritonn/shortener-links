@@ -32,6 +32,7 @@ def registration_user(user, password, error=None):
         db.session.rollback()
         error = f"User {user} already exists"
 
-    db.session.close()
     login_user(new_user)
+    db.session.close()
+
     return error

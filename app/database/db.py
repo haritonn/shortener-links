@@ -1,10 +1,15 @@
 from sqlalchemy import Column, Integer, VARCHAR, ForeignKey
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+import redis
 import dotenv
 import os
 
+# MySQL db
 db = SQLAlchemy()
+
+# Redis (cache for Links data)
+redis_client = redis.Redis(host="localhost", port=6379, decode_responses=True)
 
 
 # user name <-> user password table
