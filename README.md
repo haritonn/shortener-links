@@ -14,7 +14,7 @@
 - DATABASE - MYSQL_DATABASE для образа mysql;
 - DEV_KEY - ключ для Flask приложения.
 
-### Запуск всего приложения:
+### Запуск всего приложения (+ шаг создания .env):
 ```bash
 git clone https://github.com/haritonn/shortener-links
 cd shortener_links
